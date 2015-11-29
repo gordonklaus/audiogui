@@ -1,8 +1,8 @@
 package audiogui
 
 import (
-	"code.google.com/p/gordon-go/audio"
-	"code.google.com/p/gordon-go/gui"
+	"github.com/gordonklaus/audio"
+	"github.com/gordonklaus/gui"
 
 	"os"
 	"path/filepath"

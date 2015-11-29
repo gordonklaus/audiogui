@@ -1,7 +1,7 @@
 package audiogui
 
 import (
-	"code.google.com/p/gordon-go/audio"
+	"github.com/gordonklaus/audio"
 	"github.com/oov/audio/wave"
 
 	"os"
