@@ -116,6 +116,10 @@ func (g *pitchGrid) setCenter(c float64) {
 	*g = *newPitchGrid(c, g.maxComplexity)
 }
 
+func (g *pitchGrid) setMaxComplexity(c int) {
+	*g = *newPitchGrid(g.center, c)
+}
+
 func complexity(a, b int) int {
 	lcm := a * b / gcd(a, b)
 	c := 1

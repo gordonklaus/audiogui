@@ -21,6 +21,7 @@ type PatternView struct {
 	timeGrid   *uniformGrid
 	cursorTime float64
 	tPressed   bool
+	gPressed   bool
 
 	player     *audio.PatternPlayer
 	play, stop chan bool
@@ -353,6 +354,7 @@ func (a *attributeView) KeyPress(k KeyEvent) {
 	case KeyT:
 		a.pattern.tPressed = true
 	case KeyG:
+		a.pattern.gPressed = true
 		if k.Shift {
 			a.valueGrid = nil
 			Repaint(a)
@@ -367,7 +369,8 @@ func (a *attributeView) KeyPress(k KeyEvent) {
 		a.pattern.save()
 		a.pattern.Close()
 	default:
-		if p := a.pattern; p.tPressed && k.Key > Key0 && k.Key <= Key9 {
+		p := a.pattern
+		if p.tPressed && k.Key > Key0 && k.Key <= Key9 {
 			x := float64(k.Key - Key0)
 			if k.Shift {
 				x = 1 / x
@@ -375,6 +378,12 @@ func (a *attributeView) KeyPress(k KeyEvent) {
 			p.timeGrid.center = p.cursorTime
 			p.timeGrid.interval = x
 			Repaint(p)
+		}
+		if g, ok := a.valueGrid.(*pitchGrid); ok && p.gPressed && k.Key > Key0 && k.Key <= Key9 {
+			x := 2 + k.Key - Key0
+			g.center = a.cursorVal
+			g.setMaxComplexity(x)
+			Repaint(a)
 		}
 	}
 }
@@ -387,6 +396,8 @@ func (a *attributeView) KeyRelease(k KeyEvent) {
 		}
 	case KeyT:
 		a.pattern.tPressed = false
+	case KeyG:
+		a.pattern.gPressed = false
 	}
 }
 
